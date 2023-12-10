@@ -1,0 +1,50 @@
+[
+	{	
+		"movie_id": 1,
+		"title": "matrix 12",
+		"director": "65706fc03b2fb5166ab8a449",
+		"year": 2099,
+		"category": ["65719ec8a9723bbeddb76b66"],
+		"duration": 230
+	},
+	{
+		"movie_id": 2,
+		"title": "matrix 122",
+		"director": "65706fc03b2fb5166ab8a449",
+		"year": 2099,
+		"category": ["65719ec8a9723bbeddb76b66"],
+		"duration": 230
+	},
+	{
+		"movie_id": 3,
+		"title": "matrix 123",
+		"director": "65706fc03b2fb5166ab8a449",
+		"year": 2099,
+		"category": ["65719ec8a9723bbeddb76b66"],
+		"duration": 230
+	},
+	{
+		"movie_id": 4,
+		"title": "matrix 124",
+		"director": "65706fc03b2fb5166ab8a449",
+		"year": 2099,
+		"category": ["65719ec8a9723bbeddb76b66"],
+		"duration": 230
+	},
+	{
+		"movie_id": 5,
+		"title": "matrix 125",
+		"director": "65706fc03b2fb5166ab8a449",
+		"year": 2099,
+		"category": ["65719ec8a9723bbeddb76b66"],
+		"duration": 230
+	},
+	{
+		"movie_id": 6,
+		"title": "matrix 126",
+		"director": "65706fc03b2fb5166ab8a449",
+		"year": 2099,
+		"category": ["65719ec8a9723bbeddb76b66"],
+		"duration": 230
+	}
+]

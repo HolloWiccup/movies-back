@@ -2,6 +2,8 @@ import { body } from "express-validator";
 import { MESSAGE } from "../const/constants.js";
 import { validationHandler } from "./validation-handler.js";
 import { Movie } from "../models/movie/movie.js";
+import { isExistMovie } from "../services/movie-services.js";
+import { StatusCodes } from "http-status-codes";
 
 const checkMovieData = [
 	body("title").trim().isString().notEmpty().withMessage(MESSAGE.emptyText),
@@ -11,6 +13,15 @@ const checkMovieData = [
 	body("director").trim().isMongoId().withMessage(MESSAGE.invalidObjectId),
 	validationHandler
 ];
+
+const isExisted = async (req, res, next) => {
+	const data = req.body;
+	const exist = await isExistMovie(data)
+	if(exist) {
+		res.status(StatusCodes.CONFLICT).send('Movie is exist')
+	}
+	next()
+}
 
 const checkMoviesUploadData = (movies) => {
 	const result = {
@@ -45,4 +56,4 @@ const checkMoviesUploadData = (movies) => {
 	return result
 }
 
-export { checkMovieData, checkMoviesUploadData };
+export { checkMovieData, checkMoviesUploadData, isExisted };

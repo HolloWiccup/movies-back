@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { movieController } from "../../controllers/movie-controller.js";
-import { checkMovieData } from "../../validations/movie-validations.js";
+import { checkMovieData, isExisted } from "../../validations/movie-validations.js";
 
 const router = Router();
 
@@ -15,7 +15,7 @@ router
 router
 	.route("/movies")
 	.get(movieController.getMovies)
-	.post(checkMovieData, movieController.addMovie);
+	.post(checkMovieData, isExisted ,movieController.addMovie);
 
 
 

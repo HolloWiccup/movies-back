@@ -13,5 +13,5 @@ mongoose
 	.then(() => console.log("Connected to mongoose"));
 
 app.listen(process.env.PORT, () => {
-	console.log(`Example app listening on port ${process.env.PORT}`);
+	console.log(`Server started, port ${process.env.PORT}`);
 });

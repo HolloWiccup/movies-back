@@ -10,9 +10,11 @@ import { FILENAME } from "../const/constants.js";
 import { checkMoviesUploadData } from "../validations/movie-validations.js";
 
 const movieController = {
-	async getMovies(_, res) {
+	async getMovies(req, res) {
 		try {
-			const movies = await getMovies();
+			const {query} = req;
+			const movies = await getMovies(query);
+
 			res.status(StatusCodes.OK).json(movies);
 		} catch (error) {
 			res.status(StatusCodes.INTERNAL_SERVER_ERROR).send();
@@ -72,7 +74,6 @@ const movieController = {
 			}
 
 			await createMovies(movies);
-
 			res.status(StatusCodes.CREATED).send();
 		} catch (error) {
 			res.status(StatusCodes.INTERNAL_SERVER_ERROR).send(error.message);

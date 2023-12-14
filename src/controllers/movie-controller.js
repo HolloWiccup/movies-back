@@ -1,6 +1,7 @@
 import { StatusCodes } from "http-status-codes";
+import NodeCache from "node-cache";
 import {
-	getMovies,
+	getMovieList,
 	getMovieById,
 	createMovie,
 	createMovies,
@@ -9,11 +10,24 @@ import { uploadJsonFile } from "../utils/upload-json.js";
 import { FILENAME } from "../const/constants.js";
 import { checkMoviesUploadData } from "../validations/movie-validations.js";
 
+const movieCache = new NodeCache();
+const MOVIE_CACHE_KEY = "moviesCacheKey";
+const resetMovieCache = () => movieCache.del(MOVIE_CACHE_KEY);
+
 const movieController = {
 	async getMovies(req, res) {
 		try {
-			const {query} = req;
-			const movies = await getMovies(query);
+			const { query } = req;
+			if (query.params?.length) {
+				return res.status(StatusCodes.OK).json(await getMovieList(query));
+			}
+			
+			if (movieCache.has(MOVIE_CACHE_KEY)) {
+				return res.status(StatusCodes.OK).json(movieCache.get(MOVIE_CACHE_KEY));
+			}
+			
+			const movies = await getMovieList(query)
+			movieCache.set(MOVIE_CACHE_KEY, movies, 1200)
 
 			res.status(StatusCodes.OK).json(movies);
 		} catch (error) {
@@ -36,6 +50,7 @@ const movieController = {
 			const data = req.body;
 			const movie = await createMovie(data);
 
+			resetMovieCache();
 			res.status(StatusCodes.CREATED).json(movie);
 		} catch (error) {
 			res.status(StatusCodes.INTERNAL_SERVER_ERROR).send();
@@ -48,6 +63,7 @@ const movieController = {
 			const data = req.body;
 			const movie = await updateMovie(id, data);
 
+			resetMovieCache();
 			res.status(StatusCodes.ACCEPTED).send();
 		} catch (error) {
 			res.status(StatusCodes.INTERNAL_SERVER_ERROR).send();
@@ -59,6 +75,7 @@ const movieController = {
 			const { id } = req.params;
 			const movie = await deleteMovie(id);
 
+			resetMovieCache();
 			res.status(StatusCodes.ACCEPTED).send();
 		} catch (error) {
 			res.status(StatusCodes.INTERNAL_SERVER_ERROR).send();
@@ -74,6 +91,7 @@ const movieController = {
 			}
 
 			await createMovies(movies);
+			resetMovieCache();
 			res.status(StatusCodes.CREATED).send();
 		} catch (error) {
 			res.status(StatusCodes.INTERNAL_SERVER_ERROR).send(error.message);

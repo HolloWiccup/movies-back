@@ -1,9 +1,8 @@
 import { Movie } from '../models/movie/movie.js';
-import { filterSortService } from './filter-service.js';
 
 const moviePopulate = ['director', 'category'];
 
-const getMovies = async ({title, year, sort}) => {
+const getMovieList = async ({title, year, sort}) => {
   const query = Movie.find().populate(moviePopulate);
 
   if(title) query.where('title', title)
@@ -53,7 +52,7 @@ const isExistMovie = async ({ title, year }) => {
 };
 
 export {
-  getMovies,
+  getMovieList,
   getMovieById,
   createMovie,
   updateMovie,
